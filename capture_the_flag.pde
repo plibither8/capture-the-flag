@@ -1,5 +1,5 @@
 import processing.serial.*;
-
+import java.util.List;
 
 // Array of all the mazes that the game is going to use
 // A random maze is going to be chosen each time and used
@@ -45,7 +45,7 @@ class Player {
 	PVector position; // position vector: {x_coord, y_xoord}
 	PVector velocity = new PVector(10, 10); // velocity vector: {x_vel, y_vel}
 
-	float radius = 22; // constant radius
+	float radius = 11; // constant radius
 
 	// Update position of the player when key is pressed
 	// with new position coordinates
@@ -57,13 +57,69 @@ class Player {
 	void draw() {
 		noStroke();
 		fill(232, 210, 17); // Shade of yellow
-		circle(position.x, position.y, radius);
+		circle(position.x, position.y, radius*2); // 3rd argument is diameter
+	}
+
+	// Collision detection between player and wall units
+	// 4-stepped logic borrowed and modified into code
+	// from https://stackoverflow.com/a/402010
+	boolean detectCollision() {
+		boolean collisionDetected = false;
+
+		for (WallUnit unit : wallUnits) {
+			PVector playerDistance = new PVector(
+				Math.abs(player.position.x - unit.center.x),
+				Math.abs(player.position.y - unit.center.y)
+			);
+
+			if (
+				playerDistance.x > (unit.dimensions.x / 2 + player.radius) ||
+				playerDistance.y > (unit.dimensions.y / 2 + player.radius)
+			) {
+				continue;
+			}
+
+			if (
+				playerDistance.x <= (unit.dimensions.x / 2) ||
+				playerDistance.y <= (unit.dimensions.y / 2)
+			) {
+				collisionDetected = true;
+				break;
+			}
+
+			double cornerDistanceSq =
+				Math.pow(playerDistance.x - unit.dimensions.x / 2, 2) +
+				Math.pow(playerDistance.y - unit.dimensions.y / 2, 2);
+
+			if (cornerDistanceSq <= Math.pow(player.radius, 2)) {
+				collisionDetected = true;
+				break;
+			};
+		}
+
+		return collisionDetected;
 	}
 
 	// Constructor that takes in the initial coords
 	Player(float x, float y) {
 		position = new PVector(x, y);
 		velocity = new PVector(x, y);
+	}
+}
+
+// Wall Unit Class
+class WallUnit {
+	PVector position; // rect position
+	PVector dimensions; // rect dimensions
+	PVector center; // rect center
+
+	WallUnit(float x_coord, float y_coord, float width, float height) {
+		position = new PVector(x_coord, y_coord);
+		dimensions = new PVector(width, height);
+		center = new PVector(
+			x_coord + width / 2,
+			y_coord + height / 2
+		);
 	}
 }
 
@@ -75,6 +131,10 @@ class Maze {
 
 	// Draw the maze with respect to the row strings
 	void draw() {
+		// Empty out/clear the wall units since they are
+		// dynamically created and changing (inner walls)
+		wallUnits.clear();
+
 		int SMALL_WIDTH = 10; // Wall width
 		int LARGE_WIDTH = 30; // Space width
 
@@ -95,11 +155,15 @@ class Maze {
 				// Current row's rects' height
 				int currentWidth = j % 2 == 1 ? LARGE_WIDTH : SMALL_WIDTH;
 
-				// Draw the wall if the unit is "1"
+				// Draw the wall if the unit is "1" and
+				// push WallUnit unit to wallUnits list
 				if (unit.equals("1")) {
 					fill(21, 30, 113);
 					noStroke();
 					rect(currentX, currentY, currentWidth, currentHeight);
+
+					// Add wall unit to the array
+					wallUnits.add(new WallUnit(currentX, currentY, currentWidth, currentHeight));
 				}
 
 				// Initiate the player graphic if the unit is "0"
@@ -177,6 +241,9 @@ void setup() {
 
 // Initiating the player
 Player player;
+
+// Array of wall rects
+List<WallUnit> wallUnits = new ArrayList<WallUnit>();
 
 // Initiating the game's maze with a random maze selected from
 // the array of mazes declared in the start

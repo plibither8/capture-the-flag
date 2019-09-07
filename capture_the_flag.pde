@@ -46,7 +46,7 @@ class Player {
 	PVector position; // position vector: {x_coord, y_xoord}
 	PVector velocity = new PVector(10, 10); // velocity vector: {x_vel, y_vel}
 
-	float RADIUS = 11; // constant radius
+	int RADIUS = 11; // constant radius
 	int STEP_SIZE = 10; // pixels to move on each step
 
 	// First check if the next move does NOT cause

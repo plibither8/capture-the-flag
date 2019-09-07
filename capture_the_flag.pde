@@ -52,10 +52,10 @@ class Player {
 	// First check if the next move does NOT cause
 	// a collision with the walls. If it doesn't
 	// then procede with updating the player's position
-	void attemptMove(int directionX, int directionY) {
+	void attemptMove(PVector direction) {
 		PVector newPosition = new PVector(
-			position.x + directionX * STEP_SIZE,
-			position.y + directionY * STEP_SIZE
+			position.x + direction.x * STEP_SIZE,
+			position.y + direction.y * STEP_SIZE
 		);
 
 		if (!detectCollision(newPosition)) {
@@ -128,12 +128,12 @@ class WallUnit {
 	PVector dimensions; // rect dimensions
 	PVector center; // rect center
 
-	WallUnit(float x_coord, float y_coord, float width, float height) {
-		position = new PVector(x_coord, y_coord);
-		dimensions = new PVector(width, height);
+	WallUnit(PVector position, PVector dimensions) {
+		this.position = position;
+		this.dimensions = dimensions;
 		center = new PVector(
-			x_coord + width / 2,
-			y_coord + height / 2
+			position.x + dimensions.x / 2,
+			position.y + dimensions.y / 2
 		);
 	}
 }
@@ -178,7 +178,10 @@ class Maze {
 					rect(currentX, currentY, currentWidth, currentHeight);
 
 					// Add wall unit to the array
-					wallUnits.add(new WallUnit(currentX, currentY, currentWidth, currentHeight));
+					wallUnits.add(new WallUnit(
+						new PVector(currentX, currentY),
+						new PVector(currentWidth, currentHeight)
+					));
 				}
 
 				// Initiate the player graphic if the unit is "0"
@@ -288,16 +291,16 @@ void keyPressed() {
 	if (key == CODED && arrowKeyCodes.contains(keyCode)) {
 		switch(keyCode) {
 			case UP:
-				player.attemptMove(0, -1);
+				player.attemptMove(new PVector(0, -1));
 				break;
 			case DOWN:
-				player.attemptMove(0, 1);
+				player.attemptMove(new PVector(0, 1));
 				break;
 			case RIGHT:
-				player.attemptMove(1, 0);
+				player.attemptMove(new PVector(1, 0));
 				break;
 			case LEFT:
-				player.attemptMove(-1, 0);
+				player.attemptMove(new PVector(-1, 0));
 				break;
 		}
 	}

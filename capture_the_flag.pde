@@ -1,4 +1,5 @@
 import processing.serial.*;
+import java.util.Arrays;
 import java.util.List;
 
 // Array of all the mazes that the game is going to use
@@ -45,7 +46,22 @@ class Player {
 	PVector position; // position vector: {x_coord, y_xoord}
 	PVector velocity = new PVector(10, 10); // velocity vector: {x_vel, y_vel}
 
-	float radius = 11; // constant radius
+	float RADIUS = 11; // constant radius
+	int STEP_SIZE = 10; // pixels to move on each step
+
+	// First check if the next move does NOT cause
+	// a collision with the walls. If it doesn't
+	// then procede with updating the player's position
+	void attemptMove(int directionX, int directionY) {
+		PVector newPosition = new PVector(
+			position.x + directionX * STEP_SIZE,
+			position.y + directionY * STEP_SIZE
+		);
+
+		if (!detectCollision(newPosition)) {
+			updatePosition(newPosition);
+		}
+	}
 
 	// Update position of the player when key is pressed
 	// with new position coordinates
@@ -57,7 +73,7 @@ class Player {
 	void draw() {
 		noStroke();
 		fill(232, 210, 17); // Shade of yellow
-		circle(position.x, position.y, radius * 2); // 3rd argument is diameter
+		circle(position.x, position.y, RADIUS * 2); // 3rd argument is diameter
 	}
 
 	// Collision detection between player and wall units
@@ -73,8 +89,8 @@ class Player {
 			);
 
 			if (
-				playerDistance.x > (unit.dimensions.x / 2 + player.radius) ||
-				playerDistance.y > (unit.dimensions.y / 2 + player.radius)
+				playerDistance.x > (unit.dimensions.x / 2 + player.RADIUS) ||
+				playerDistance.y > (unit.dimensions.y / 2 + player.RADIUS)
 			) {
 				continue;
 			}
@@ -91,7 +107,7 @@ class Player {
 				Math.pow(playerDistance.x - unit.dimensions.x / 2, 2) +
 				Math.pow(playerDistance.y - unit.dimensions.y / 2, 2);
 
-			if (cornerDistanceSq <= Math.pow(player.radius, 2)) {
+			if (cornerDistanceSq <= Math.pow(player.RADIUS, 2)) {
 				collisionDetected = true;
 				break;
 			};
@@ -264,3 +280,25 @@ void draw() {
 	frameRefreshCount++;
 }
 
+// Create immutable list of arrow-keys' keycodes to quickly
+// check for valid condition
+List<Integer> arrowKeyCodes = Arrays.asList(UP, DOWN, RIGHT, LEFT);
+
+void keyPressed() {
+	if (key == CODED && arrowKeyCodes.contains(keyCode)) {
+		switch(keyCode) {
+			case UP:
+				player.attemptMove(0, -1);
+				break;
+			case DOWN:
+				player.attemptMove(0, 1);
+				break;
+			case RIGHT:
+				player.attemptMove(1, 0);
+				break;
+			case LEFT:
+				player.attemptMove(-1, 0);
+				break;
+		}
+	}
+}

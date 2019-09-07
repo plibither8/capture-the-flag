@@ -49,27 +49,27 @@ class Player {
 
 	// Update position of the player when key is pressed
 	// with new position coordinates
-	void updatePosition(float x, float y) {
-		position = new PVector(x, y);
+	void updatePosition(PVector newPosition) {
+		position = newPosition;
 	}
 
 	// Draw the player graphics
 	void draw() {
 		noStroke();
 		fill(232, 210, 17); // Shade of yellow
-		circle(position.x, position.y, radius*2); // 3rd argument is diameter
+		circle(position.x, position.y, radius * 2); // 3rd argument is diameter
 	}
 
 	// Collision detection between player and wall units
 	// 4-stepped logic borrowed and modified into code
 	// from https://stackoverflow.com/a/402010
-	boolean detectCollision() {
+	boolean detectCollision(PVector playerPosition) {
 		boolean collisionDetected = false;
 
 		for (WallUnit unit : wallUnits) {
 			PVector playerDistance = new PVector(
-				Math.abs(player.position.x - unit.center.x),
-				Math.abs(player.position.y - unit.center.y)
+				Math.abs(playerPosition.x - unit.center.x),
+				Math.abs(playerPosition.y - unit.center.y)
 			);
 
 			if (
@@ -101,9 +101,8 @@ class Player {
 	}
 
 	// Constructor that takes in the initial coords
-	Player(float x, float y) {
-		position = new PVector(x, y);
-		velocity = new PVector(x, y);
+	Player(PVector initialPosition) {
+		position = initialPosition;
 	}
 }
 
@@ -169,10 +168,11 @@ class Maze {
 				// Initiate the player graphic if the unit is "0"
 				// and the unit has not already been initiated
 				if (unit.equals("0") && player == null) {
-					player = new Player(
+					playerInitialPosition = PVector(
 						currentX + LARGE_WIDTH / 2,
 						currentY + LARGE_WIDTH / 2
 					);
+					player = new Player(playerInitialPosition);
 				}
 
 				// Shift the drawing x coordinate right

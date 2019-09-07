@@ -156,7 +156,7 @@ class Maze {
 			rows[BASE_INDEX + i] =
 				rowStr.substring(0, BASE_INDEX) +
 				innerStr +
-				rowStr.substring(BASE_INDEX + innerStr.length);
+				rowStr.substring(BASE_INDEX + innerStr.length());
 		}
 	}
 

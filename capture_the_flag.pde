@@ -168,7 +168,7 @@ class Maze {
 				// Initiate the player graphic if the unit is "0"
 				// and the unit has not already been initiated
 				if (unit.equals("0") && player == null) {
-					playerInitialPosition = PVector(
+					PVector playerInitialPosition = new PVector(
 						currentX + LARGE_WIDTH / 2,
 						currentY + LARGE_WIDTH / 2
 					);

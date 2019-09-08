@@ -279,6 +279,8 @@ public class Game {
 	}
 
 	public void draw() {
+		background(11, 76, 244); // Shade of blue
+
 		maze.draw(); // Draw the maze
 		maze.rotateInnerWall(); // Rotate the inner wall
 		player.draw(); // Draw the player
@@ -299,7 +301,6 @@ Game game = new Game();
 
 void draw() {
 	clear(); // Clear the board to redraw everything and update states
-	background(11, 76, 244); // Shade of blue
 
 	game.draw(); // Draw all game graphics
 

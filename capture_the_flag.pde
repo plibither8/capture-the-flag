@@ -265,6 +265,19 @@ public class Game {
 	private String[] randomMaze = mazes[(int)(Math.random() * mazes.length)];
 	private Maze maze = new Maze(randomMaze);
 
+	// Timer that returns mm:ss time using frame refresh count
+	public String timer() {
+		int totalSeconds = frameRefreshCount / 30;
+		int minutes = totalSeconds / 60;
+		int seconds = totalSeconds % 60;
+
+		String minuteString = (minutes < 10 ? "0" : "") + String.valueOf(minutes);
+		String secondsString = (seconds < 10 ? "0" : "") + String.valueOf(seconds);
+		String timeString = minuteString + ":" + secondsString;
+
+		return timeString;
+	}
+
 	public void draw() {
 		maze.draw(); // Draw the maze
 		maze.rotateInnerWall(); // Rotate the inner wall

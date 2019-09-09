@@ -41,10 +41,16 @@ String[][] mazes = {
 	}
 };
 
+// Create PImage object
+PImage headLogo;
+
 // Processing setup
 void setup() {
-	size(700, 650);
+	size(840, 1010);
 	frameRate(30);
+
+	// Load the image
+	headLogo = loadImage("assets/logo.png");
 }
 
 // Frame refresh counter
@@ -58,6 +64,8 @@ Game game = new Game("multi");
 void draw() {
 	clear(); // Clear the board to redraw everything and update states
 
+	background(11, 76, 244); // Shade of blue
+	image(headLogo, 345, 30, 150, 150); // Draw out image
 	game.draw(); // Draw all game graphics
 
 	frameRefreshCount++;

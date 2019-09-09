@@ -8,38 +8,37 @@ public class Game {
 	// Initiating the players
 	public List<Player> players = new ArrayList<Player>();
 
-	// Timer that returns mm:ss time using frame refresh count
-	public String timer() {
-		int totalSeconds = frameRefreshCount / 30;
-		int minutes = totalSeconds / 60;
-		int seconds = totalSeconds % 60;
+	// Timer
+	public Timer timer = new Timer();
 
-		String minuteString = (minutes < 10 ? "0" : "") + String.valueOf(minutes);
-		String secondsString = (seconds < 10 ? "0" : "") + String.valueOf(seconds);
-		String timeString = minuteString + ":" + secondsString;
-
-		return timeString;
-	}
-
+	// Draw all game graphics
 	public void draw() {
-		background(11, 76, 244); // Shade of blue
+		// Draw the maze
+		mazeBoard.draw();
+		// Rotate the inner wall
+		mazeBoard.rotateInnerWall();
 
-		mazeBoard.draw(); // Draw the maze
-		mazeBoard.rotateInnerWall(); // Rotate the inner wall
+		// Draw each player (multiple in case of multiplayer)
 		for (Player player : players) {
-			player.draw(); // Draw the player
+			player.draw();
 		}
+
+		// Draw the timer
+		timer.draw();
 	}
 
 	Game(String mode) {
+		// Array of player colors in RGB int arrays
 		int[][] colors = {
 			{232, 210, 17},
 			{255, 0, 0}
 		};
 
+		// Add the first player (for both single and multiplayer)
 		players.add(new Player(selectedMaze, colors[0]));
 
 		if (mode.equals("multi")) {
+			// Add the second player (only for multi)
 			players.add(new Player(selectedMaze, colors[1]));
 		}
 	}

@@ -7,7 +7,7 @@ public class Player {
 	private int RADIUS = 11; // constant radius
 	private int STEP_SIZE = 10; // pixels to move on each step
 
-	private int[] rgb; // Player object's rgb color
+	private int[] backgroundRgb; // Player object's background rgb color
 
 	// First check if the next move does NOT cause
 	// a collision with the walls. If it doesn't
@@ -149,7 +149,7 @@ public class Player {
 	// Draw the player graphics
 	public void draw() {
 		noStroke(); // No borders
-		fill(rgb[0], rgb[1], rgb[2]);
+		fill(backgroundRgb[0], backgroundRgb[1], backgroundRgb[2]);
 		circle(position.x, position.y, RADIUS * 2); // 3rd argument is diameter
 	}
 
@@ -157,7 +157,7 @@ public class Player {
 	Player(String[] maze, int[] rgb) {
 		rows = maze;
 
-		this.rgb = rgb;
+		backgroundRgb = rgb;
 		position = getInitialPosition();
 
 		playerCount++;

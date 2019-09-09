@@ -5,8 +5,8 @@ public class Game {
 	private String[] selectedMaze = mazes[(int)(Math.random() * mazes.length)];
 	private Maze mazeBoard = new Maze(selectedMaze);
 
-	// Initiating the player
-	public Player player = new Player(selectedMaze);
+	// Initiating the players
+	public List<Player> players = new ArrayList<Player>();
 
 	// Timer that returns mm:ss time using frame refresh count
 	public String timer() {
@@ -26,6 +26,21 @@ public class Game {
 
 		mazeBoard.draw(); // Draw the maze
 		mazeBoard.rotateInnerWall(); // Rotate the inner wall
-		player.draw(); // Draw the player
+		for (Player player : players) {
+			player.draw(); // Draw the player
+		}
+	}
+
+	Game(String mode) {
+		int[][] colors = {
+			{232, 210, 17},
+			{255, 0, 0}
+		};
+
+		players.add(new Player(selectedMaze, colors[0]));
+
+		if (mode.equals("multi")) {
+			players.add(new Player(selectedMaze, colors[1]));
+		}
 	}
 }

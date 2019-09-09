@@ -7,25 +7,25 @@ import java.util.List;
 // for that game
 String[][] mazes = {
 	{
-		"1111111111111111111111111111111",
-		"1                             1",
-		"1 1111111 1111111111111111111 1",
-		"1 1       1                 1 1",
-		"1 1 111111111111111 1111111 1 1",
+		"11111111111111111111111111111111",
+		"1                              0",
+		"1 1111111 1111111111111111111 11",
+		"1 1             1           1 1",
+		"1 1 11111111111 11111111111 1 1",
 		"1 1 1                     1 1 1",
 		"1 1 1 1111111111111111111 1 1 1",
-		"1 1 1 1         1       1 1 1 1",
+		"1 1 1 1         1       1 1   1",
 		"1 1 1 1 1111111 1111111 1 1 1 1",
-		"1 1 1 1 1           1 1 1   1 1",
+		"1 1 1 1 1     1       1 1 1 1 1",
 		"1 1 1 1 1 11111111111 1 1 1 1 1",
-		"1 1 1 1 1 1   1     1 1 1 1 1 1",
-		"1 1 1 1 1 1 111 111 1 1 1 1 1 1",
+		"1 1 1 1 1 1         1 1 1 1 1 1",
+		"1 1 1 1 1 1 111 11111 1 1 1 1 1",
 		"1 1 1 1 1 1 1     1 1 1 1 1 1 1",
 		"1 1 111 1 1 1 111 1 1 1 111 1 1",
 		"1 1 1   1   1 1 1 1   1   1 1 1",
 		"1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1",
 		"1 1 1 1 1 1 1     1 1 1 1 1 1 1",
-		"1 1 1 1 1 1 111111111 1 1 1 1 1",
+		"1 1 1 1 1 1 111 11111 1 1 1 1 1",
 		"1 1 1 1 1 1         1 1 1 1 1 1",
 		"1 1 1 1 1 11111111111 1 1 1 1 1",
 		"1 1 1 1 1     1       1 1 1 1 1",
@@ -50,8 +50,10 @@ void setup() {
 // Frame refresh counter
 int frameRefreshCount = 0;
 
+// Maintains number of players that are in the game
+int playerCount = 0;
 // Initialise Game object
-Game game = new Game();
+Game game = new Game("multi");
 
 void draw() {
 	clear(); // Clear the board to redraw everything and update states
@@ -63,22 +65,43 @@ void draw() {
 
 // Create immutable list of arrow-keys' keycodes to quickly
 // check for valid condition
-List<Integer> arrowKeyCodes = Arrays.asList(UP, DOWN, RIGHT, LEFT);
+List<Integer> directionKeys = Arrays.asList(
+	UP,
+	DOWN,
+	RIGHT,
+	LEFT,
+	87,
+	65,
+	83,
+	68
+);
 
 void keyPressed() {
-	if (key == CODED && arrowKeyCodes.contains(keyCode)) {
+	if (directionKeys.contains(keyCode)) {
 		switch(keyCode) {
 			case UP:
-				game.player.attemptMove(new PVector(0, -1));
+				game.players.get(0).attemptMove(new PVector(0, -1));
 				break;
 			case DOWN:
-				game.player.attemptMove(new PVector(0, 1));
+				game.players.get(0).attemptMove(new PVector(0, 1));
 				break;
 			case RIGHT:
-				game.player.attemptMove(new PVector(1, 0));
+				game.players.get(0).attemptMove(new PVector(1, 0));
 				break;
 			case LEFT:
-				game.player.attemptMove(new PVector(-1, 0));
+				game.players.get(0).attemptMove(new PVector(-1, 0));
+				break;
+			case 87:
+				game.players.get(1).attemptMove(new PVector(0, -1));
+				break;
+			case 83:
+				game.players.get(1).attemptMove(new PVector(0, 1));
+				break;
+			case 68:
+				game.players.get(1).attemptMove(new PVector(1, 0));
+				break;
+			case 65:
+				game.players.get(1).attemptMove(new PVector(-1, 0));
 				break;
 		}
 	}

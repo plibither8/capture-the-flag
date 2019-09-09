@@ -7,6 +7,8 @@ public class Player {
 	private int RADIUS = 11; // constant radius
 	private int STEP_SIZE = 10; // pixels to move on each step
 
+	private int[] rgb; // Player object's rgb color
+
 	// First check if the next move does NOT cause
 	// a collision with the walls. If it doesn't
 	// then procede with updating the player's position
@@ -108,17 +110,14 @@ public class Player {
 		int SMALL_LENGTH = 10; // Wall pixel length
 		int LARGE_LENGTH = 30; // Space pixel length
 
+		int playerFoundCount = 0;
+		boolean playerFound = false;
+
 		PVector activePosition = new PVector(0, 0); // Keep track of current drawing position
 		PVector unitDimensions = new PVector(0, 0); // Keep track of active units' dimensions
 
-		// Flag to see if player string has been found
-		boolean playerFound = false;
-
 		// Loop over maze array to find "0" player position
-		for (int i = 0; i < rows.length; i++) {
-			// Break out of the parent loop if the player has been found
-			if (playerFound) break;
-
+		for (int i = 0; i < rows.length && !playerFound; i++) {
 			activePosition.x = 0; // Searching row-wise so start with 0 every time
 			unitDimensions.y = i % 2 == 1 ? LARGE_LENGTH : SMALL_LENGTH;
 
@@ -126,13 +125,16 @@ public class Player {
 				unitDimensions.x = j % 2 == 1 ? LARGE_LENGTH : SMALL_LENGTH;
 
 				if (rows[i].charAt(j) == '0') {
-					playerFound = true; // Found!
+					if (playerCount == playerFoundCount) {
+						playerFound = true; // Found!
 
-					// Set the circle center at the center of the unit
-					activePosition.x += unitDimensions.x / 2;
-					activePosition.y -= unitDimensions.y / 2;
+						// Set the circle center at the center of the unit
+						activePosition.x += unitDimensions.x / 2;
+						activePosition.y -= unitDimensions.y / 2;
+						break;
+					}
 
-					break;
+					playerFoundCount++; // One more player found
 				}
 
 				activePosition.x += unitDimensions.x;
@@ -147,13 +149,17 @@ public class Player {
 	// Draw the player graphics
 	public void draw() {
 		noStroke(); // No borders
-		fill(232, 210, 17); // Shade of yellow
+		fill(rgb[0], rgb[1], rgb[2]);
 		circle(position.x, position.y, RADIUS * 2); // 3rd argument is diameter
 	}
 
 	// Constructor that takes in the initial coords and maze
-	Player(String[] maze) {
+	Player(String[] maze, int[] rgb) {
 		rows = maze;
+
+		this.rgb = rgb;
 		position = getInitialPosition();
+
+		playerCount++;
 	}
 }

@@ -3,6 +3,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.awt.AWTException;
 
+// USB Arduino Port
 Serial arduinoPort;
 
 // Array of all the mazes that the game is going to use
@@ -12,33 +13,33 @@ String[][] mazes = {
 	{
 		"11111111111111111111111111111111",
 		"1                              0",
-		"1 1111111 1111111111111111111 11",
-		"1 1             1           1 1",
-		"1 1 11111111111 11111111111 1 1",
-		"1 1 1                     1 1 1",
-		"1 1 1 1111111111111111111 1 1 1",
-		"1 1 1 1         1       1 1   1",
-		"1 1 1 1 1111111 1111111 1 1 1 1",
-		"1 1 1 1 1     1       1 1 1 1 1",
-		"1 1 1 1 1 11111111111 1 1 1 1 1",
-		"1 1 1 1 1 1         1 1 1 1 1 1",
-		"1 1 1 1 1 1 111 111 1 1 1 1 1 1",
-		"1 1 1 1 1 1 1     1 1 1 1 1 1 1",
-		"1 1 1 1 1 1 1 111 1 1 1 111 1 1",
-		"1 1 1   1   1 121 1   1   1 1 1",
-		"1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1",
-		"1 1 1 1 1 1 1     1 1 1 1 1 1 1",
-		"1 1 1 1 1 1 111 11111 1 1 1 1 1",
-		"1 1 1 1 1 1         1 1 1 1 1 1",
-		"1 1 1 1 1 11111111111 1 1 1 1 1",
-		"1 1 1 1 1     1       1 1 1 1 1",
-		"1 1 1 1 1111111 1111111 1 1 1 1",
-		"1 1 1 1         1       1 1   1",
-		"1 1 1 1111111111111111111 1 1 1",
-		"1 1 1                     1 1 1",
-		"1 1 11111111111 11111111111 1 1",
-		"1 1             1           1 1",
-		"1 111111111111111111111111111 11",
+		"1 1111111111111 1111111111111 11",
+		"1 1                         1 1",
+		"1 1 11111111111111111111111 1 1",
+		"1 1 1         1           1 1 1",
+		"1 111 11111 11111 1111111 1 1 1",
+		"1 1 1 1   1   1         1   1 1",
+		"1 1 1 1 11111 1111111 111 1 1 1",
+		"1 1   1 1     1       1 1 1 1 1",
+		"1 1 1 1 1 1111111 111 1 1 111 1",
+		"1 1 1 1   1   1     1 1 1 1 1 1",
+		"1 1 1 1 111 1 11111 111 1 1 1 1",
+		"1   1 1     1     1   1   1   1",
+		"111 111 111 1 1 1 1 111 111 111",
+		"1 1 1 1 1 1 1 121 1 1 1 1 1 1 1",
+		"1 111 111 111 1 1 111 111 111 1",
+		"1   1 1     1     1   1   1   1",
+		"1 1 1 1 111 1 11111 111 1 1 1 1",
+		"1 1 1 1   1   1     1 1 1 1 1 1",
+		"1 1 1 1 1 1111111 111 1 1 111 1",
+		"1 1   1 1     1       1 1 1 1 1",
+		"1 1 1 1 11111 1111111 111 1 1 1",
+		"1 1 1 1   1   1         1   1 1",
+		"1 111 11111 11111 1111111 1 1 1",
+		"1 1 1         1           1 1 1",
+		"1 1 11111111111111111111111 1 1",
+		"1 1                         1 1",
+		"1 1111111111111 1111111111111 11",
 		"1                              0",
 		"11111111111111111111111111111111",
 	}
@@ -72,21 +73,37 @@ void serialEvent(Serial port) throws Exception {
 	String keyString = port.readStringUntil('\n');
 	keyString = keyString.substring(0, keyString.indexOf(':'));
 
-	switch(keyString){
-		case "Up":
+	switch(keyString) {
+		case "Up0":
 			game.players.get(0).attemptMove(new PVector(0, -1));
 			break;
 
-		case "Down":
+		case "Down0":
 			game.players.get(0).attemptMove(new PVector(0, 1));
 			break;
 
-		case "Right":
+		case "Right0":
 			game.players.get(0).attemptMove(new PVector(1, 0));
 			break;
 
-		case "Left":
+		case "Left0":
 			game.players.get(0).attemptMove(new PVector(-1, 0));
+			break;
+
+		case "Up1":
+			game.players.get(1).attemptMove(new PVector(0, -1));
+			break;
+
+		case "Down1":
+			game.players.get(1).attemptMove(new PVector(0, 1));
+			break;
+
+		case "Right1":
+			game.players.get(1).attemptMove(new PVector(1, 0));
+			break;
+
+		case "Left1":
+			game.players.get(1).attemptMove(new PVector(-1, 0));
 			break;
 	}
 }

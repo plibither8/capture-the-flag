@@ -27,7 +27,8 @@ public class Maze {
 				if (rows[i].charAt(j) == '1') {
 					fill(21, 30, 113);
 					noStroke();
-					rect(currentDrawingPosition.x,
+					rect(
+						currentDrawingPosition.x,
 						currentDrawingPosition.y,
 						currentUnitDimensions.x,
 						currentUnitDimensions.y

@@ -37,7 +37,6 @@ public class Maze {
 
 				// Draw the flag
 				if (rows[i].charAt(j) == '2') {
-					// fill(62, 39, 85);
 					fill(65, 182, 251);
 					noStroke();
 					triangle(

@@ -34,6 +34,21 @@ public class Maze {
 					);
 				}
 
+				// Draw the flag
+				if (rows[i].charAt(j) == '2') {
+					// fill(62, 39, 85);
+					fill(255, 255, 255);
+					noStroke();
+					triangle(
+						currentDrawingPosition.x + currentUnitDimensions.x / 8,
+						currentDrawingPosition.y + currentUnitDimensions.y / 8,
+						currentDrawingPosition.x + currentUnitDimensions.x / 8,
+						currentDrawingPosition.y + currentUnitDimensions.y * 7 / 8,
+						currentDrawingPosition.x + currentUnitDimensions.x * 7 / 8,
+						currentDrawingPosition.y + currentUnitDimensions.y / 2
+					);
+				}
+
 				// Shift the drawing x coordinate right
 				currentDrawingPosition.x += currentUnitDimensions.x;
 			}
@@ -52,10 +67,10 @@ public class Maze {
 
 		// Array of string arrays containing the inner wall states
 		String[][] INNER_WALL_STATES = {
-			{ "111", "1 1", "1 1" },
-			{ "111", "  1", "111" },
-			{ "1 1", "1 1", "111" },
-			{ "111", "1  ", "111" }
+			{ "111", "121", "1 1" },
+			{ "111", " 21", "111" },
+			{ "1 1", "121", "111" },
+			{ "111", "12 ", "111" }
 		};
 
 		int BASE_INDEX = ((rows.length - 1) / 2) - 1; // Index to start editing

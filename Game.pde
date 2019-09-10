@@ -27,6 +27,15 @@ public class Game {
 		timer.draw();
 	}
 
+	// Returns boolean if player one
+	public boolean hasPlayerOne() {
+		for (Player player : players) {
+			if (player.playerWon) return true;
+		}
+
+		return false;
+	}
+
 	Game(String mode) {
 		// Array of player colors in RGB int arrays
 		int[][] colors = {

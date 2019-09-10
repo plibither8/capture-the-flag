@@ -19,10 +19,10 @@ String[][] mazes = {
 		"1 1 1 1 1     1       1 1 1 1 1",
 		"1 1 1 1 1 11111111111 1 1 1 1 1",
 		"1 1 1 1 1 1         1 1 1 1 1 1",
-		"1 1 1 1 1 1 111 11111 1 1 1 1 1",
+		"1 1 1 1 1 1 111 111 1 1 1 1 1 1",
 		"1 1 1 1 1 1 1     1 1 1 1 1 1 1",
-		"1 1 111 1 1 1 111 1 1 1 111 1 1",
-		"1 1 1   1   1 1 1 1   1   1 1 1",
+		"1 1 1 1 1 1 1 111 1 1 1 111 1 1",
+		"1 1 1   1   1 121 1   1   1 1 1",
 		"1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1",
 		"1 1 1 1 1 1 1     1 1 1 1 1 1 1",
 		"1 1 1 1 1 1 111 11111 1 1 1 1 1",
@@ -62,6 +62,9 @@ int playerCount = 0;
 Game game = new Game("multi");
 
 void draw() {
+	// Stop 
+	if (game.hasPlayerOne()) return;
+
 	clear(); // Clear the board to redraw everything and update states
 
 	background(11, 76, 244); // Shade of blue

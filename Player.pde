@@ -9,6 +9,9 @@ public class Player {
 
 	private int[] backgroundRgb; // Player object's background rgb color
 
+	// Flag to check whether the player has won if collision with flag has occured
+	public boolean playerWon = false;
+
 	// First check if the next move does NOT cause
 	// a collision with the walls. If it doesn't
 	// then procede with updating the player's position
@@ -65,8 +68,9 @@ public class Player {
 				// Increase unit position before doing any continues
 				unit.position.x += unit.dimensions.x;
 
+				char unitString = rows[i].charAt(j);
 				// If not '1' or not wall, skip to next iteration
-				if (rows[i].charAt(j) != '1') continue;
+				if (unitString != '1' && unitString != '2') continue;
 
 				PVector playerDistance = new PVector(
 					Math.abs(playerPosition.x - unit.center.x),
@@ -85,6 +89,7 @@ public class Player {
 					playerDistance.y <= (unit.dimensions.y / 2)
 				) {
 					collisionDetected = true;
+					if (unitString == '2') playerWon = true;
 					break;
 				}
 
@@ -94,6 +99,7 @@ public class Player {
 
 				if (cornerDistanceSq <= Math.pow(this.RADIUS, 2)) {
 					collisionDetected = true;
+					if (unitString == '2') playerWon = true;
 					break;
 				};
 			}

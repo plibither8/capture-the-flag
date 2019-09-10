@@ -19,19 +19,19 @@ void loop() {
 
 	switch (analogInput.x) {
 		case 0:
-			Serial.println("Left:");
+			Serial.println("Left0:");
 			break;
 		case 1023:
-			Serial.println("Right:");
+			Serial.println("Right0:");
 			break;
 	}
 
 	switch (analogInput.y) {
 		case 0:
-			Serial.println("Up:");
+			Serial.println("Up0:");
 			break;
 		case 1023:
-			Serial.println("Down:");
+			Serial.println("Down0:");
 			break;
 	}
 

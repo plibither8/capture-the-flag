@@ -58,11 +58,12 @@ int frameRefreshCount = 0;
 
 // Maintains number of players that are in the game
 int playerCount = 0;
+
 // Initialise Game object
 Game game = new Game("multi");
 
 void draw() {
-	// Stop 
+	// Stop the game and drawings once someone has won
 	if (game.hasPlayerOne()) return;
 
 	clear(); // Clear the board to redraw everything and update states

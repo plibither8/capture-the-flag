@@ -9,6 +9,8 @@ public class Player {
 
 	private int[] backgroundRgb; // Player object's background rgb color
 
+	private int flagCollisionCount = 0; // Number of flag collisions
+
 	// Flag to check whether the player has won if collision with flag has occured
 	public boolean playerWon = false;
 
@@ -68,8 +70,8 @@ public class Player {
 				// Increase unit position before doing any continues
 				unit.position.x += unit.dimensions.x;
 
-				char unitString = rows[i].charAt(j);
-				// If not '1' or not wall, skip to next iteration
+				char unitString = rows[i].charAt(j); // can be: ' ', '0', '1', '2'
+				// If not '1'/'2' or not wall/flag, skip to next iteration
 				if (unitString != '1' && unitString != '2') continue;
 
 				PVector playerDistance = new PVector(
@@ -88,8 +90,20 @@ public class Player {
 					playerDistance.x <= (unit.dimensions.x / 2) ||
 					playerDistance.y <= (unit.dimensions.y / 2)
 				) {
+					// To ensure that the player overlaps with the flag (trangle)
+					// we make the player collide with the flag rect 3 times
+					// so as to make the collision apparent
+					if (unitString == '2') {
+						++flagCollisionCount; // Increase collision count
+
+						if (flagCollisionCount == 3) {
+							playerWon = true;
+						} else {
+							break; // collision detected but don't set it to the variable
+						}
+					}
+
 					collisionDetected = true;
-					if (unitString == '2') playerWon = true;
 					break;
 				}
 
@@ -98,8 +112,17 @@ public class Player {
 					Math.pow(playerDistance.y - unit.dimensions.y / 2, 2);
 
 				if (cornerDistanceSq <= Math.pow(this.RADIUS, 2)) {
+					if (unitString == '2') {
+						++flagCollisionCount;
+
+						if (flagCollisionCount == 3) {
+							playerWon = true;
+						} else {
+							break;
+						}
+					}
+
 					collisionDetected = true;
-					if (unitString == '2') playerWon = true;
 					break;
 				};
 			}

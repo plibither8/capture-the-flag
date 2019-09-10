@@ -1,6 +1,9 @@
 import processing.serial.*;
 import java.util.Arrays;
 import java.util.List;
+import java.awt.AWTException;
+
+Serial arduinoPort;
 
 // Array of all the mazes that the game is going to use
 // A random maze is going to be chosen each time and used
@@ -43,14 +46,49 @@ String[][] mazes = {
 
 // Create PImage object
 PImage headLogo;
+// Create PFont object
+PFont pixelFont;
 
 // Processing setup
 void setup() {
+	// Get port name
+	String portName = Serial.list()[0];
+	// Setting arduino port
+	arduinoPort = new Serial(this, portName, 9600);
+	arduinoPort.bufferUntil('\n');
+
+	// Canvas size and drawing framerate
 	size(840, 1010);
 	frameRate(30);
 
 	// Load the image
 	headLogo = loadImage("assets/logo.png");
+	// Load the font
+	pixelFont = createFont("assets/pixel-font.ttf", 32);
+}
+
+void serialEvent(Serial port) throws Exception {
+	// Get output from port and take substring upto colon
+	String keyString = port.readStringUntil('\n');
+	keyString = keyString.substring(0, keyString.indexOf(':'));
+
+	switch(keyString){
+		case "Up":
+			game.players.get(0).attemptMove(new PVector(0, -1));
+			break;
+
+		case "Down":
+			game.players.get(0).attemptMove(new PVector(0, 1));
+			break;
+
+		case "Right":
+			game.players.get(0).attemptMove(new PVector(1, 0));
+			break;
+
+		case "Left":
+			game.players.get(0).attemptMove(new PVector(-1, 0));
+			break;
+	}
 }
 
 // Frame refresh counter
@@ -58,6 +96,9 @@ int frameRefreshCount = 0;
 
 // Maintains number of players that are in the game
 int playerCount = 0;
+
+// Initialse Menu object
+Menu menu = new Menu();
 
 // Initialise Game object
 Game game = new Game("multi");
@@ -67,8 +108,10 @@ void draw() {
 	if (game.hasPlayerOne()) return;
 
 	clear(); // Clear the board to redraw everything and update states
-
 	background(11, 76, 244); // Shade of blue
+
+	// menu.draw();
+
 	image(headLogo, 345, 30, 150, 150); // Draw out image
 	game.draw(); // Draw all game graphics
 

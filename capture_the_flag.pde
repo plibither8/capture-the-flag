@@ -71,9 +71,9 @@ void setup() {
 void serialEvent(Serial port) throws Exception {
 	// Get output from port and take substring upto colon
 	String keyString = port.readStringUntil('\n');
-	keyString = keyString.substring(0, keyString.indexOf(':'));
+	String direction = keyString.substring(0, keyString.indexOf(':'));
 
-	switch(keyString) {
+	switch(direction) {
 		case "Up0":
 			game.players.get(0).attemptMove(new PVector(0, -1));
 			break;

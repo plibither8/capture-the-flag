@@ -1,7 +1,8 @@
 void setup() {
-	// put your setup code here, to run once:
-	pinMode(A0, INPUT);
-	pinMode(A1, INPUT);
+	pinMode(A0, INPUT); // Joystick X
+	pinMode(A1, INPUT); // Joystick Y
+	pinMode(A2, INPUT); // Potentiometer
+
 	Serial.begin(9600);
 }
 
@@ -11,7 +12,6 @@ void loop() {
 		int y;
 	};
 
-	// put your main code here, to run repeatedly:
 	struct Input analogInput;
 
 	analogInput.x = analogRead(A0);
@@ -33,6 +33,15 @@ void loop() {
 		case 1023:
 			Serial.println("Down0:");
 			break;
+		}
+
+	int potentiometerInput = analogRead(A2);
+
+	if (potentiometerInput == 1023) {
+		Serial.println("Right1:");
+	}
+	if (potentiometerInput == 0) {
+		Serial.println("Left1:");
 	}
 
 	delay(50);

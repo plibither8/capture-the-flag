@@ -59,7 +59,7 @@ void setup() {
 	arduinoPort.bufferUntil('\n');
 
 	// Canvas size and drawing framerate
-	size(840, 1010);
+	fullScreen();
 	frameRate(30);
 
 	// Load the image
@@ -68,113 +68,113 @@ void setup() {
 	pixelFont = createFont("assets/pixel-font.ttf", 32);
 }
 
+void handleInput(String inputString) {
+	// Start screen
+	if (currentScreen == 0) {
+		// If button pressed on start screen, move to next screen
+		if (inputString.equals("Enter")) {
+			currentScreen = 1;
+		}
+		return;
+	}
+
+	// Mode selection screen
+	if (currentScreen == 1) {
+		switch(inputString) {
+			case "Up0":
+			case "Up1":
+				gameMode = 0;
+				break;
+
+			case "Down0":
+			case "Down1":
+				gameMode = 1;
+				break;
+
+			case "Enter":
+				game = new Game(gameMode);
+				currentScreen = 2;
+				break;
+		}
+		return;
+	}
+
+	// Game play screen
+	if (currentScreen == 2 && !playerWon) {
+		switch(inputString) {
+			case "Up0":
+				game.players.get(0).attemptMove(new PVector(0, -1));
+				break;
+
+			case "Down0":
+				game.players.get(0).attemptMove(new PVector(0, 1));
+				break;
+
+			case "Right0":
+				game.players.get(0).attemptMove(new PVector(1, 0));
+				break;
+
+			case "Left0":
+				game.players.get(0).attemptMove(new PVector(-1, 0));
+				break;
+
+			case "Up1":
+				game.players.get(1).attemptMove(new PVector(0, -1));
+				break;
+
+			case "Down1":
+				game.players.get(1).attemptMove(new PVector(0, 1));
+				break;
+
+			case "Right1":
+				game.players.get(1).attemptMove(new PVector(1, 0));
+				break;
+
+			case "Left1":
+				game.players.get(1).attemptMove(new PVector(-1, 0));
+				break;
+		}
+		return;
+	}
+}
+
 void serialEvent(Serial port) throws Exception {
 	// Get output from port and take substring upto colon
 	String keyString = port.readStringUntil('\n');
-	String direction = keyString.substring(0, keyString.indexOf(':'));
-
-	switch(direction) {
-		case "Up0":
-			game.players.get(0).attemptMove(new PVector(0, -1));
-			break;
-
-		case "Down0":
-			game.players.get(0).attemptMove(new PVector(0, 1));
-			break;
-
-		case "Right0":
-			game.players.get(0).attemptMove(new PVector(1, 0));
-			break;
-
-		case "Left0":
-			game.players.get(0).attemptMove(new PVector(-1, 0));
-			break;
-
-		case "Up1":
-			game.players.get(1).attemptMove(new PVector(0, -1));
-			break;
-
-		case "Down1":
-			game.players.get(1).attemptMove(new PVector(0, 1));
-			break;
-
-		case "Right1":
-			game.players.get(1).attemptMove(new PVector(1, 0));
-			break;
-
-		case "Left1":
-			game.players.get(1).attemptMove(new PVector(-1, 0));
-			break;
-	}
+	String inputString = keyString.substring(0, keyString.indexOf(':'));
+	handleInput(inputString);
 }
 
 // Frame refresh counter
 int frameRefreshCount = 0;
 
+// Index of currently active screen:
+//   0: start screen
+//   1: mode selection screen
+//   2: game play screen
+int currentScreen = 0;
+
+// 0 => single; 1 => multi
+int gameMode = 0;
+
 // Maintains number of players that are in the game
 int playerCount = 0;
 
-// Initialse Menu object
-Menu menu = new Menu();
+// Flag that checks if a win has happened
+boolean playerWon = false;
+
+// Initialse Screen object
+Screen screen = new Screen();
 
 // Initialise Game object
-Game game = new Game("multi");
+Game game = new Game(1);
 
 void draw() {
-	// Stop the game and drawings once someone has won
-	if (game.hasPlayerOne()) return;
-
 	clear(); // Clear the board to redraw everything and update states
 	background(11, 76, 244); // Shade of blue
 
-	// menu.draw();
-
-	image(headLogo, 345, 30, 150, 150); // Draw out image
-	game.draw(); // Draw all game graphics
+	// Draw the currently active screen
+	screen.draw();
 
 	frameRefreshCount++;
-}
-
-// Create immutable list of arrow-keys' keycodes to quickly
-// check for valid condition
-List<Integer> directionKeys = Arrays.asList(
-	UP,
-	DOWN,
-	RIGHT,
-	LEFT,
-	87,
-	65,
-	83,
-	68
-);
-
-void keyPressed() {
-	if (directionKeys.contains(keyCode)) {
-		switch(keyCode) {
-			case UP:
-				game.players.get(0).attemptMove(new PVector(0, -1));
-				break;
-			case DOWN:
-				game.players.get(0).attemptMove(new PVector(0, 1));
-				break;
-			case RIGHT:
-				game.players.get(0).attemptMove(new PVector(1, 0));
-				break;
-			case LEFT:
-				game.players.get(0).attemptMove(new PVector(-1, 0));
-				break;
-			case 87:
-				game.players.get(1).attemptMove(new PVector(0, -1));
-				break;
-			case 83:
-				game.players.get(1).attemptMove(new PVector(0, 1));
-				break;
-			case 68:
-				game.players.get(1).attemptMove(new PVector(1, 0));
-				break;
-			case 65:
-				game.players.get(1).attemptMove(new PVector(-1, 0));
-				break;
-		}
-	}
 }

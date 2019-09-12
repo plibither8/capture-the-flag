@@ -13,6 +13,9 @@ public class Game {
 
 	// Draw all game graphics
 	public void draw() {
+		// Draw out image
+		image(headLogo, width / 2 - 75, 30, 150, 150);
+
 		// Draw the maze
 		mazeBoard.draw();
 		// Rotate the inner wall
@@ -25,6 +28,12 @@ public class Game {
 
 		// Draw the timer
 		timer.draw();
+
+		if (playerWon) {
+			fill(0, 0, 0, 180);
+			noStroke();
+			rect(0, 0, width, height);
+		}
 	}
 
 	// Returns boolean if player one
@@ -36,7 +45,7 @@ public class Game {
 		return false;
 	}
 
-	Game(String mode) {
+	Game(int mode) {
 		// Array of player colors in RGB int arrays
 		int[][] colors = {
 			{232, 210, 17},
@@ -46,7 +55,7 @@ public class Game {
 		// Add the first player (for both single and multiplayer)
 		players.add(new Player(selectedMaze, colors[0]));
 
-		if (mode.equals("multi")) {
+		if (mode == 1) {
 			// Add the second player (only for multi)
 			players.add(new Player(selectedMaze, colors[1]));
 		}

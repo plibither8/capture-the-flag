@@ -9,12 +9,12 @@ public class Maze {
 		int SMALL_LENGTH = 10; // Wall pixel length
 		int LARGE_LENGTH = 30; // Space pixel length
 
-		PVector currentDrawingPosition = new PVector(100, 210); // Current drawing x/y coordinates
+		PVector currentDrawingPosition = new PVector(width / 2 - 320, 210); // Current drawing x/y coordinates
 		PVector currentUnitDimensions = new PVector(0, 0); // Current unit dimensions
 
 		for (int i = 0; i < rows.length; i++) {
 			// Current drawing x coordinate
-			currentDrawingPosition.x = 100;
+			currentDrawingPosition.x = width / 2 - 320;
 			// Current row's rects' height
 			currentUnitDimensions.y = i % 2 == 1 ? LARGE_LENGTH : SMALL_LENGTH;
 

@@ -40,7 +40,7 @@ public class Player {
 	private boolean detectCollision(PVector playerPosition) {
 		// Unit class
 		class Unit {
-			public PVector position = new PVector(100, 210); // rect position
+			public PVector position = new PVector(width / 2 - 320, 210); // rect position
 			public PVector dimensions = new PVector(0, 0); // rect dimensions
 			public PVector center = new PVector(0, 0); // rect center
 		}
@@ -55,7 +55,7 @@ public class Player {
 		Unit unit = new Unit();
 
 		for (int i = 0; i < rows.length && !collisionDetected; i++) {
-			unit.position.x = 100; // row-wise so start with 0 every time
+			unit.position.x = width / 2 - 320; // row-wise so start with 0 every time
 			// Set current length of rect dimensions
 			unit.dimensions.y = i % 2 == 1 ? LARGE_LENGTH : SMALL_LENGTH;
 
@@ -142,12 +142,12 @@ public class Player {
 		int playerFoundCount = 0;
 		boolean playerFound = false;
 
-		PVector activePosition = new PVector(100, 210); // Keep track of current drawing position
+		PVector activePosition = new PVector(width / 2 - 320, 210); // Keep track of current drawing position
 		PVector unitDimensions = new PVector(0, 0); // Keep track of active units' dimensions
 
 		// Loop over maze array to find "0" player position
 		for (int i = 0; i < rows.length && !playerFound; i++) {
-			activePosition.x = 100; // Searching row-wise so start with 0 every time
+			activePosition.x = width / 2 - 320; // Searching row-wise so start with 0 every time
 			unitDimensions.y = i % 2 == 1 ? LARGE_LENGTH : SMALL_LENGTH;
 
 			for (int j = 0; j < rows[i].length(); j++) {

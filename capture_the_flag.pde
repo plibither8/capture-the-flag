@@ -1,4 +1,7 @@
+import processing.sound.*;
+
 import processing.serial.*;
+
 import java.util.Arrays;
 import java.util.List;
 import java.awt.AWTException;
@@ -49,14 +52,16 @@ String[][] mazes = {
 PImage headLogo;
 // Create PFont object
 PFont pixelFont;
+// Sound Objects
+SoundFile coinDrop, runner;
 
 // Processing setup
 void setup() {
 	// Get port name
 	String portName = Serial.list()[0];
 	// Setting arduino port
-	arduinoPort = new Serial(this, portName, 9600);
-	arduinoPort.bufferUntil('\n');
+	// arduinoPort = new Serial(this, portName, 9600);
+	// arduinoPort.bufferUntil('\n');
 
 	// Canvas size and drawing framerate
 	fullScreen();
@@ -66,6 +71,9 @@ void setup() {
 	headLogo = loadImage("assets/logo.png");
 	// Load the font
 	pixelFont = createFont("assets/pixel-font.ttf", 32);
+	// Load the sounds
+	coinDrop = new SoundFile(this, "assets/coinDrop.wav");
+	runner = new SoundFile(this, "assets/runner.wav");
 }
 
 void handleInput(String inputString) {
@@ -73,6 +81,7 @@ void handleInput(String inputString) {
 	if (currentScreen == 0) {
 		// If button pressed on start screen, move to next screen
 		if (inputString.equals("Enter")) {
+			coinDrop.play();
 			currentScreen = 1;
 		}
 		return;

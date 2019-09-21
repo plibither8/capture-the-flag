@@ -18,6 +18,10 @@ public class Player {
 	// a collision with the walls. If it doesn't
 	// then procede with updating the player's position
 	public void attemptMove(PVector direction) {
+    if (frameRefreshCount % 3 == 0) {
+      runner.play();
+    }
+  
 		PVector newPosition = new PVector(
 			position.x + direction.x * STEP_SIZE,
 			position.y + direction.y * STEP_SIZE

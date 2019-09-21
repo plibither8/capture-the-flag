@@ -38,17 +38,20 @@ public class Game {
 			textSize(150);
 			fill(232, 210, 17); // Yellow
 
-			String requiredText = "Player ";
+			String winText = "Player ";
 			for (int i = 0; i < players.size(); i++) {
 				if (players.get(i).playerWon) {
-					requiredText += (i + 1);
+					winText += (i + 1);
 					break;
 				} 
 			}
-			requiredText += " won!";
+			winText += " won!";
+
+			String timerText = "Finish time: " + timer.getTime();
 
 			// Draw text
-			text(requiredText, width / 2 - textWidth(requiredText) / 2, height / 2);
+			text(winText, width / 2 - textWidth(winText) / 2, height / 2);
+			text(timerText, width / 2 - textWidth(timerText) / 2, height * 3 / 4);
 		}
 	}
 

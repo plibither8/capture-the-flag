@@ -29,15 +29,31 @@ public class Game {
 		// Draw the timer
 		timer.draw();
 
-		if (playerWon) {
+		if (hasPlayerWon()) {
 			fill(0, 0, 0, 180);
 			noStroke();
 			rect(0, 0, width, height);
+
+			textFont(pixelFont); // Loaded in setup()
+			textSize(150);
+			fill(232, 210, 17); // Yellow
+
+			String requiredText = "Player ";
+			for (int i = 0; i < players.size(); i++) {
+				if (players.get(i).playerWon) {
+					requiredText += (i + 1);
+					break;
+				} 
+			}
+			requiredText += " won!";
+
+			// Draw text
+			text(requiredText, width / 2 - textWidth(requiredText) / 2, height / 2);
 		}
 	}
 
 	// Returns boolean if player one
-	public boolean hasPlayerOne() {
+	public boolean hasPlayerWon() {
 		for (Player player : players) {
 			if (player.playerWon) return true;
 		}

@@ -100,7 +100,10 @@ void handleInput(String inputString) {
 	}
 
 	// Game play screen
-	if (currentScreen == 2 && !playerWon) {
+	if (
+		currentScreen == 2 &&
+		!(game != null && game.hasPlayerWon()) // no player has won
+	) {
 		switch(inputString) {
 			case "Up0":
 				game.players.get(0).attemptMove(new PVector(0, -1));
@@ -147,6 +150,7 @@ void serialEvent(Serial port) throws Exception {
 
 // Frame refresh counter
 int frameRefreshCount = 0;
+int gameFrameCount = 0;
 
 // Index of currently active screen:
 //   0: start screen
@@ -167,7 +171,7 @@ boolean playerWon = false;
 Screen screen = new Screen();
 
 // Initialise Game object
-Game game = new Game(1);
+Game game;
 
 void draw() {
 	clear(); // Clear the board to redraw everything and update states
@@ -177,4 +181,41 @@ void draw() {
 	screen.draw();
 
 	frameRefreshCount++;
+	if (game != null) {
+		gameFrameCount++;
+	}
+}
+
+// Same functions with keypress for debugging
+void keyPressed() {
+	switch(keyCode) {
+		case UP:
+			handleInput("Up0");
+			break;
+		case 87:
+			handleInput("Up1");
+			break;
+		case DOWN:
+			handleInput("Down0");
+			break;
+		case 83:
+			handleInput("Down1");
+			break;
+		case RIGHT:
+			handleInput("Right0");
+			break;
+		case 68:
+			handleInput("Right1");
+			break;
+		case LEFT:
+			handleInput("Left0");
+			break;
+		case 65:
+			handleInput("Left1");
+			break;
+		case ENTER:
+		case RETURN:
+			handleInput("Enter");
+			break;
+	}
 }

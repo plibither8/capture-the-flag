@@ -5,9 +5,9 @@ class Timer {
 
 	// Timer that returns mm:ss time string using frame refresh count
 	public String getTime() {
-		if (playerWon) return timeString;
+		if (game.hasPlayerWon()) return timeString;
 
-		int totalSeconds = frameRefreshCount / 30;
+		int totalSeconds = gameFrameCount / 30;
 		int minutes = totalSeconds / 60;
 		int seconds = totalSeconds % 60;
 

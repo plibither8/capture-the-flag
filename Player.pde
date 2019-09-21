@@ -97,7 +97,26 @@ public class Player {
 						++flagCollisionCount; // Increase collision count
 
 						if (flagCollisionCount == 3) {
-							playerWon = true;
+							int totalSeconds = gameFrameCount / 30;
+							if (
+								gameMode == 0 && // single player
+								level == 1 // still the first level
+							) {
+								position = getInitialPosition();
+								flagCollisionCount = 0;
+
+								if (
+									totalSeconds / 60 < 1 && // less than a minute
+									totalSeconds % 60 <= 25 // less than or eq to 25s
+								) {
+									level = 2;
+								} else {
+									gameFrameCount = 0;
+								}
+
+							} else {
+								playerWon = true;
+							}
 						} else {
 							break; // collision detected but don't set it to the variable
 						}
@@ -113,10 +132,29 @@ public class Player {
 
 				if (cornerDistanceSq <= Math.pow(this.RADIUS, 2)) {
 					if (unitString == '2') {
-						++flagCollisionCount;
+						++flagCollisionCount; // Increase collision count
 
 						if (flagCollisionCount == 3) {
-							playerWon = true;
+							int totalSeconds = gameFrameCount / 30;
+							if (
+								gameMode == 0 && // single player
+								level == 1 // still the first level
+							) {
+								position = getInitialPosition();
+
+								if (
+									totalSeconds / 60 < 1 && // less than a minute
+									totalSeconds % 60 <= 25 // less than or eq to 25s
+								) {
+									level = 2;
+								} else {
+									gameFrameCount = 0;
+									flagCollisionCount = 0;
+								}
+
+							} else {
+								playerWon = true;
+							}
 						} else {
 							break;
 						}

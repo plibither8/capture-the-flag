@@ -92,16 +92,30 @@ void handleInput(String inputString) {
 				break;
 
 			case "Enter":
-				game = new Game(gameMode);
-				currentScreen = 2;
+				if (gameMode == 0) {
+					currentScreen = 2;
+				} else {
+					game = new Game(gameMode);
+					currentScreen = 3;
+				}
 				break;
+		}
+		return;
+	}
+
+	// Rules for single player
+	if (currentScreen == 2) {
+		// If button pressed on start screen, move to next screen
+		if (inputString.equals("Enter")) {
+			game = new Game(0);
+			currentScreen = 3;
 		}
 		return;
 	}
 
 	// Game play screen
 	if (
-		currentScreen == 2 &&
+		currentScreen == 3 &&
 		!(game != null && game.hasPlayerWon()) // no player has won
 	) {
 		switch(inputString) {
@@ -163,6 +177,9 @@ int gameMode = 0;
 
 // Maintains number of players that are in the game
 int playerCount = 0;
+
+// Which level?
+int level = 1;
 
 // Flag that checks if a win has happened
 boolean playerWon = false;

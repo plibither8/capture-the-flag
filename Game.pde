@@ -36,7 +36,6 @@ public class Game {
 
 			textFont(pixelFont); // Loaded in setup()
 			textSize(150);
-			fill(232, 210, 17); // Yellow
 
 			String winText = "Player ";
 			for (int i = 0; i < players.size(); i++) {
@@ -50,8 +49,16 @@ public class Game {
 			String timerText = "Finish time: " + timer.getTime();
 
 			// Draw text
-			text(winText, width / 2 - textWidth(winText) / 2, height / 2);
-			text(timerText, width / 2 - textWidth(timerText) / 2, height * 3 / 4);
+			// To give the blinking effect, change color mode every half-second
+			if (frameRefreshCount % 30 < 15) {
+				fill(232, 210, 17); // Yellow
+			} else {
+				fill(255, 0, 0); // White
+			}
+			text(winText, width / 2 - textWidth(winText) / 2, height * 1 / 3);
+
+			fill(232, 210, 17); // Yellow
+			text(timerText, width / 2 - textWidth(timerText) / 2, height * 2 / 3);
 		}
 	}
 

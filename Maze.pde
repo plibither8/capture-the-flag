@@ -25,7 +25,17 @@ public class Maze {
 				// Draw the wall if the unit is "1" and
 				// push WallUnit unit to wallUnits list
 				if (rows[i].charAt(j) == '1') {
-					fill(21, 30, 113);
+					if (level == 1) {
+						fill(21, 30, 113); // Dark blue
+					} else {
+						// To give the blinking effect, change color mode every half-second
+						if (frameRefreshCount % 30 < 15) {
+							fill(21, 30, 113); // Dark blue
+						} else {
+							fill(11, 76, 244); // White
+						}
+					}
+
 					noStroke();
 					rect(
 						currentDrawingPosition.x,

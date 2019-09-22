@@ -60,8 +60,8 @@ void setup() {
 	// Get port name
 	String portName = Serial.list()[0];
 	// Setting arduino port
-	// arduinoPort = new Serial(this, portName, 9600);
-	// arduinoPort.bufferUntil('\n');
+	arduinoPort = new Serial(this, portName, 9600);
+	arduinoPort.bufferUntil('\n');
 
 	// Canvas size and drawing framerate
 	fullScreen();
@@ -127,6 +127,7 @@ void handleInput(String inputString) {
 		currentScreen == 3 &&
 		!(game != null && game.hasPlayerWon()) // no player has won
 	) {
+		println(inputString);
 		switch(inputString) {
 			case "Up0":
 				game.players.get(0).attemptMove(new PVector(0, -1));
@@ -145,21 +146,53 @@ void handleInput(String inputString) {
 				break;
 
 			case "Up1":
-				game.players.get(1).attemptMove(new PVector(0, -1));
+				if (gameMode == 1)
+					game.players.get(1).attemptMove(new PVector(0, -1));
 				break;
 
 			case "Down1":
-				game.players.get(1).attemptMove(new PVector(0, 1));
+				if (gameMode == 1)
+					game.players.get(1).attemptMove(new PVector(0, 1));
 				break;
 
 			case "Right1":
-				game.players.get(1).attemptMove(new PVector(1, 0));
+				if (gameMode == 1)
+					game.players.get(1).attemptMove(new PVector(1, 0));
 				break;
 
 			case "Left1":
-				game.players.get(1).attemptMove(new PVector(-1, 0));
+				if (gameMode == 1)
+					game.players.get(1).attemptMove(new PVector(-1, 0));
+				break;
+
+			case "g1_1":
+				if (gameMode == 1)
+					game.players.get(1).stepSize = 30;
+				break;
+
+			case "g2_1":
+				if (gameMode == 1)
+					game.players.get(1).stepSize = 20;
+				break;
+
+			case "g3_1":
+				if (gameMode == 1)
+					game.players.get(1).stepSize = 10;
+				break;
+
+			case "g1_2":
+				game.players.get(0).stepSize = 30;
+				break;
+
+			case "g2_2":
+				game.players.get(0).stepSize = 20;
+				break;
+
+			case "g3_2":
+				game.players.get(0).stepSize = 10;
 				break;
 		}
+
 		return;
 	}
 }

@@ -5,7 +5,6 @@ public class Player {
 	private PVector position; // position vector: {x_coord, y_xoord}
 
 	private int RADIUS = 11; // constant radius
-	private int STEP_SIZE = 10; // pixels to move on each step
 
 	private int[] backgroundRgb; // Player object's background rgb color
 
@@ -14,17 +13,21 @@ public class Player {
 	// Flag to check whether the player has won if collision with flag has occured
 	public boolean playerWon = false;
 
+	public int stepSize = 0; // pixels to move on each step
+
 	// First check if the next move does NOT cause
 	// a collision with the walls. If it doesn't
 	// then procede with updating the player's position
 	public void attemptMove(PVector direction) {
-    if (frameRefreshCount % 3 == 0) {
-      runner.play();
-    }
-  
+		if (frameRefreshCount % 3 == 0) {
+			runner.play();
+		}
+
+		println(stepSize);
+
 		PVector newPosition = new PVector(
-			position.x + direction.x * STEP_SIZE,
-			position.y + direction.y * STEP_SIZE
+			position.x + direction.x * stepSize,
+			position.y + direction.y * stepSize
 		);
 
 		if (!detectCollision(newPosition)) {

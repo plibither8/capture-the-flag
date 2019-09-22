@@ -196,11 +196,15 @@ void handleInput(String inputString) {
 	}
 }
 
-void serialEvent(Serial port) throws Exception {
-	// Get output from port and take substring upto colon
-	String keyString = port.readStringUntil('\n');
-	String inputString = keyString.substring(0, keyString.indexOf(':'));
-	handleInput(inputString);
+void serialEvent(Serial port) {
+	try {
+		// Get output from port and take substring upto colon
+		String keyString = port.readStringUntil('\n');
+		String inputString = keyString.substring(0, keyString.indexOf(':'));
+		handleInput(inputString);
+	} catch(RuntimeException e) {
+		e.printStackTrace();
+	}
 }
 
 // Frame refresh counter

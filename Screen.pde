@@ -57,7 +57,7 @@ class Screen {
 		String[] texts = {
 			"Rule:",
 			"Complete Level 1 within",
-			"25 seconds to reach Level 2"
+			"40 seconds to reach Level 2"
 		};
 
 		textSize(120);

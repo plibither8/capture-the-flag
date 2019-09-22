@@ -110,10 +110,7 @@ public class Player {
 								position = getInitialPosition();
 								flagCollisionCount = 0;
 
-								if (
-									totalSeconds / 60 < 1 && // less than a minute
-									totalSeconds % 60 <= 25 // less than or eq to 25s
-								) {
+								if (totalSeconds < 61) {
 									level = 2;
 								} else {
 									gameFrameCount = 0;
@@ -147,10 +144,7 @@ public class Player {
 							) {
 								position = getInitialPosition();
 
-								if (
-									totalSeconds / 60 < 1 && // less than a minute
-									totalSeconds % 60 <= 25 // less than or eq to 25s
-								) {
+								if (totalSeconds < 41) {
 									level = 2;
 								} else {
 									gameFrameCount = 0;

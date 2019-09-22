@@ -127,7 +127,6 @@ void handleInput(String inputString) {
 		currentScreen == 3 &&
 		!(game != null && game.hasPlayerWon()) // no player has won
 	) {
-		println(inputString);
 		switch(inputString) {
 			case "Up0":
 				game.players.get(0).attemptMove(new PVector(0, -1));

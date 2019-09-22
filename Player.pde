@@ -23,8 +23,6 @@ public class Player {
 			runner.play();
 		}
 
-		println(stepSize);
-
 		PVector newPosition = new PVector(
 			position.x + direction.x * stepSize,
 			position.y + direction.y * stepSize
